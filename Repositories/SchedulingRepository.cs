@@ -47,10 +47,7 @@ namespace SchedulingApi.Repositories {
             var meeting = new Meeting();
             var meetingId = participants.FirstOrDefault().MeetingId;
             try{
-                foreach(var participant in participants)
-                {
-                    _context.MeetingParticipants.Add(participant);
-                }
+                _context.MeetingParticipants.AddRange(participants);
                 
                 await _context.SaveChangesAsync();
                 meeting = await _context.Meetings.Where(m => m.MeetingId == meetingId)
@@ -60,7 +57,7 @@ namespace SchedulingApi.Repositories {
             {
                 var x = e.Message;
             }
-                return meeting;
+            return meeting;
         }
 
         public async Task<List<User>> GetUsersByUserIdListAsync(List<int> userIdList){
